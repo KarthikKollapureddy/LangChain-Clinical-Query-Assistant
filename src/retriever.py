@@ -122,12 +122,12 @@ def build_vectorstore(data_dir: str, persist_dir: Optional[str] = None):
 
 def load_vectorstore(persist_dir: Optional[str] = None):
     persist_dir = persist_dir or CHROMA_DIR
-    openai_key = _get_openai_api_key()
+    # Do not force an OpenAI key here; the vectorstore can be used with WAIP generation
     client = chromadb.Client(Settings(persist_directory=persist_dir, is_persistent=True))
     collection = client.get_or_create_collection(name="clinical_docs")
     return collection
 
-def get_qa_chain(collection, model_name: str = 'gpt-4o-mini'):
+def get_qa_chain(collection, model_name: str = 'gpt-4o'):
     openai_key = os.environ.get('OPENAI_API_KEY')
     dev_fake = os.environ.get('DEV_FAKE_EMBS', '') in ('1', 'true', 'True')
     waip_enabled = os.environ.get('WAIP_ENABLED', '') in ('1', 'true', 'True') or bool(os.environ.get('WAIP_API_KEY'))
@@ -173,6 +173,8 @@ def get_qa_chain(collection, model_name: str = 'gpt-4o-mini'):
                     return docs
                 else:
                     import openai
+                    if not openai_key:
+                        raise RuntimeError('OpenAI API key not set; cannot compute query embedding')
                     openai.api_key = openai_key
                     resp = openai.Embedding.create(model="text-embedding-3-large", input=[query])
                     q_emb = resp['data'][0]['embedding']
@@ -194,8 +196,10 @@ def get_qa_chain(collection, model_name: str = 'gpt-4o-mini'):
                 txt = waip_client.chat_completion(prompt, model_name=model_name, max_output_tokens=512)
                 return txt
             except Exception as e:
-                # fall through to OpenAI fallback
+                # If WAIP fails and OpenAI is available, fall back; otherwise raise a clear error
                 print('WAIP generation failed:', e)
+                if not openai_key:
+                    raise RuntimeError(f"WAIP generation failed and no OpenAI key available: {e}")
 
         resp = openai.ChatCompletion.create(
             model=model_name,

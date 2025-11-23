@@ -18,6 +18,11 @@ class WAIPClient:
         }
 
     def chat_completion(self, prompt: str, model_name: str = "gpt-4o", max_output_tokens: int = 512):
+        """
+        Call WAIP completion skill and return a plain text response.
+        The WAIP API has inconsistent payload/response shapes across deployments; attempt
+        to call with a reasonable payload and parse common response formats.
+        """
         url = f"{self.base_url}/v1.1/skills/completion/query"
         payload = {
             "messages": [{"content": prompt, "role": "user"}],
@@ -25,7 +30,38 @@ class WAIPClient:
             "stream_response": False,
         }
         resp = requests.post(url, json=payload, headers=self.headers, verify=False)
-        resp.raise_for_status()
+        if resp.status_code == 422:
+            # try an alternate minimal payload seen to work in some WAIP deployments
+            alt_payload = {"input": prompt, "model": model_name}
+            resp = requests.post(url, json=alt_payload, headers=self.headers, verify=False)
+
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError:
+            # include response body to make debugging WAIP 422 responses easier
+            body = None
+            try:
+                body = resp.text
+            except Exception:
+                body = '<no response body>'
+            raise RuntimeError(f"WAIP API error {resp.status_code}: {body}")
+
+        # parse common JSON shapes and return a single text string
+        try:
+            j = resp.json()
+        except ValueError:
+            return resp.text
+
+        # common WAIP-like response: {"data": {"content": "..."}}
+        if isinstance(j, dict):
+            data = j.get("data")
+            if isinstance(data, dict) and "content" in data:
+                return data.get("content")
+            # sometimes the top-level has 'content'
+            if "content" in j:
+                return j.get("content")
+
+        # fallback to text representation
         return resp.text
 
     def embeddings(self, texts, model_name: str = "text-embedding-3-large"):
@@ -37,8 +73,16 @@ class WAIPClient:
             "stream_response": False,
         }
         resp = requests.post(url, json=payload, headers=self.headers, verify=False)
-        resp.raise_for_status()
-        # The response format may vary — return raw text for now
-        return resp.text
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError:
+            # bubble up so caller can decide fallback; include response text for debugging
+            raise
+
+        # return raw json when available — caller decides how to interpret
+        try:
+            return resp.json()
+        except ValueError:
+            return resp.text
 
 __all__ = ["WAIPClient"]
