@@ -25,20 +25,49 @@ async function ask(){
     const data = await resp.json();
     setStatus('Done');
     answerArea.textContent = data.answer || JSON.stringify(data, null, 2);
-    // render sources
+    // render retriever sources (these come from the indexed documents)
     sourcesList.innerHTML = '';
-    if(Array.isArray(data.sources)){
+    if(Array.isArray(data.sources) && data.sources.length){
+      // support two formats: array of strings (new) or array of objects (legacy)
       data.sources.forEach(s=>{
         const li = document.createElement('li');
-        const meta = document.createElement('div'); meta.className='src-meta'; meta.textContent = s.source || s.id || 'source';
-        const txt = document.createElement('div'); txt.className='src-text'; txt.textContent = s.text || '';
+        let metaText = '';
+        let txtContent = '';
+        if(typeof s === 'string'){
+          metaText = s;
+        } else if(typeof s === 'object' && s !== null){
+          metaText = s.source || s.id || 'source';
+          txtContent = s.text || '';
+        } else {
+          metaText = String(s);
+        }
+        const meta = document.createElement('div'); meta.className='src-meta'; meta.textContent = metaText;
+        const txt = document.createElement('div'); txt.className='src-text'; txt.textContent = txtContent;
         const actions = document.createElement('div'); actions.className='src-actions';
         const copyBtn = document.createElement('button'); copyBtn.textContent='Copy';
-        copyBtn.onclick = ()=>{navigator.clipboard.writeText(s.text || '');};
+        copyBtn.onclick = ()=>{navigator.clipboard.writeText(txtContent || metaText || '');};
         actions.appendChild(copyBtn);
         li.appendChild(meta); li.appendChild(txt); li.appendChild(actions);
         sourcesList.appendChild(li);
       })
+    } else {
+      const li = document.createElement('li'); li.textContent='No retriever sources found.'; sourcesList.appendChild(li);
+    }
+
+    // if the model reported its own sources, show them separately (collapsed)
+    const modelSources = data.model_sources || [];
+    const modelDiv = document.getElementById('modelSources');
+    if(modelDiv){
+      modelDiv.innerHTML = '';
+      if(Array.isArray(modelSources) && modelSources.length){
+        const hdr = document.createElement('div'); hdr.textContent='Model-cited sources (from answer):'; hdr.className='model-sources-hdr';
+        modelDiv.appendChild(hdr);
+        const ul = document.createElement('ul');
+        modelSources.forEach(ms=>{const li=document.createElement('li'); li.textContent = ms; ul.appendChild(li)});
+        modelDiv.appendChild(ul);
+      } else {
+        modelDiv.textContent = '';
+      }
     }
   }catch(e){
     setStatus('Network error');
