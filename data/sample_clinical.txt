@@ -1,0 +1,5 @@
+Patient: Pediatric asthma guideline excerpt
+
+For pediatric patients with mild intermittent asthma, the recommended approach includes inhaled short-acting beta2-agonists (SABA) as needed. For persistent asthma, consider daily inhaled corticosteroids (low dose) based on weight and age. Example dosing: Budesonide inhalation suspension for nebulizer: 0.25 mg for children 0-1 year; 0.5 mg for children 1-8 years; 1 mg for older children. Always adjust dosing based on clinical response.
+
+References: Example Medical Guideline 2022, Pediatric Asthma Management
