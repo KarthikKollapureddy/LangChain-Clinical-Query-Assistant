@@ -3,6 +3,7 @@ const clearBtn = document.getElementById('clearBtn');
 const queryInput = document.getElementById('queryInput');
 const answerArea = document.getElementById('answerArea');
 const status = document.getElementById('status');
+const sourcesList = document.getElementById('sourcesList');
 
 function setStatus(s){status.textContent = s}
 
@@ -24,6 +25,21 @@ async function ask(){
     const data = await resp.json();
     setStatus('Done');
     answerArea.textContent = data.answer || JSON.stringify(data, null, 2);
+    // render sources
+    sourcesList.innerHTML = '';
+    if(Array.isArray(data.sources)){
+      data.sources.forEach(s=>{
+        const li = document.createElement('li');
+        const meta = document.createElement('div'); meta.className='src-meta'; meta.textContent = s.source || s.id || 'source';
+        const txt = document.createElement('div'); txt.className='src-text'; txt.textContent = s.text || '';
+        const actions = document.createElement('div'); actions.className='src-actions';
+        const copyBtn = document.createElement('button'); copyBtn.textContent='Copy';
+        copyBtn.onclick = ()=>{navigator.clipboard.writeText(s.text || '');};
+        actions.appendChild(copyBtn);
+        li.appendChild(meta); li.appendChild(txt); li.appendChild(actions);
+        sourcesList.appendChild(li);
+      })
+    }
   }catch(e){
     setStatus('Network error');
     answerArea.textContent = String(e);

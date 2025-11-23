@@ -16,6 +16,14 @@ textarea{width:100%;padding:12px;border-radius:8px;border:none;background:var(--
 .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#022;box-shadow:0 6px 20px rgba(96,165,250,0.08)}
 .status{color:var(--muted);font-size:13px;margin-bottom:8px}
 .answer{white-space:pre-wrap;word-wrap:break-word;background:transparent;border-radius:6px;padding:8px}
+.sources{margin-top:12px;border-top:1px dashed rgba(255,255,255,0.03);padding-top:10px}
+.sources h3{margin:0 0 6px 0;font-size:13px}
+.sources ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.sources li{display:flex;justify-content:space-between;align-items:flex-start;background:rgba(255,255,255,0.02);padding:8px;border-radius:6px}
+.src-meta{font-size:12px;color:var(--muted)}
+.src-text{font-size:13px;max-height:5.5em;overflow:hidden}
+.src-actions{display:flex;gap:8px}
+.src-actions button{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:6px;border-radius:6px;color:var(--muted);cursor:pointer}
 .footer{text-align:center;margin-top:18px;color:var(--muted);font-size:12px}
 
 @media (min-width:800px){.container{grid-template-columns:1fr 1fr}}
