@@ -123,7 +123,7 @@ def build_vectorstore(data_dir: str, persist_dir: Optional[str] = None):
 def load_vectorstore(persist_dir: Optional[str] = None):
     persist_dir = persist_dir or CHROMA_DIR
     # Do not force an OpenAI key here; the vectorstore can be used with WAIP generation
-    client = chromadb.Client(Settings(persist_directory=persist_dir, is_persistent=True))
+    client = chromadb.Client(Settings(persist_directory=persist_dir, is_persistent=True, anonymized_telemetry=False))
     collection = client.get_or_create_collection(name="clinical_docs")
     return collection
 
