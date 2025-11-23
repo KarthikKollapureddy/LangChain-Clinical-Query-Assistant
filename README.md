@@ -112,3 +112,20 @@ Files
 License
 -------
 MIT (demo)
+
+Sample data
+-----------
+The `data/` directory contains `sample_clinical.txt` with example guideline excerpts used for local testing. If you add or modify files under `data/`, rebuild the vector store so the new content is indexed:
+
+```bash
+python src/run_demo.py --build --data data
+```
+
+Commiting changes
+-----------------
+After modifying sample data or code, you can commit the updates:
+
+```bash
+git add -A
+git commit -m "Update sample clinical data and README"
+```
