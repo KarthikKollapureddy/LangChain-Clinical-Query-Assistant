@@ -1,6 +1,8 @@
 LangChain-Clinical-Query-Assistant
 ================================
 
+[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
+
 Overview
 --------
 This project demonstrates a Retrieval-Augmented Generation (RAG) assistant for clinical queries using LangChain. It loads clinical documents, creates embeddings, stores them in a vector store (Chroma), and exposes a simple FastAPI endpoint to answer clinician queries.
