@@ -20,8 +20,6 @@ class WAIPClient:
     def chat_completion(self, prompt: str, model_name: str = "gpt-4o", max_output_tokens: int = 512):
         """
         Call WAIP completion skill and return a plain text response.
-        The WAIP API has inconsistent payload/response shapes across deployments; attempt
-        to call with a reasonable payload and parse common response formats.
         """
         url = f"{self.base_url}/v1.1/skills/completion/query"
         payload = {

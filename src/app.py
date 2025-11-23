@@ -42,7 +42,8 @@ async def query(req: QueryRequest):
     if qa_chain is None:
         raise HTTPException(status_code=503, detail='QA chain not available. Build the index first or check logs.')
     try:
-        answer = qa_chain(req.query)
-        return {"query": req.query, "answer": answer}
+        res = qa_chain(req.query)
+        # res is a dict {query, answer, sources}
+        return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
