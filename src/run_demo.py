@@ -1,5 +1,8 @@
 import argparse
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from .retriever import build_vectorstore, load_vectorstore, get_qa_chain
 

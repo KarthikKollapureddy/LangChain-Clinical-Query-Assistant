@@ -22,8 +22,18 @@ pip install -r requirements.txt
 
 2. Set environment variables (for OpenAI):
 
+You can either export `OPENAI_API_KEY` in your shell or place it in a `.env` file at the project root. The code uses `python-dotenv` to automatically load `.env`.
+
+Shell example:
+
 ```bash
 export OPENAI_API_KEY="your-openai-key"
+```
+
+Or create `.env` with:
+
+```dotenv
+OPENAI_API_KEY=your-openai-key
 ```
 
 3. Build the vector store (optional cached):
