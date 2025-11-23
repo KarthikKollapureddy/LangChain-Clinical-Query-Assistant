@@ -167,9 +167,10 @@ def get_qa_chain(collection, model_name: str = 'gpt-4o-mini'):
                 q_emb = vals[:dim]
             else:
                 if waip_client:
-                    # try WAIP for query embedding / generation
-                    ans_text = waip_client.chat_completion(query, model_name=model_name)
-                    return [ans_text]
+                    # Use Chroma text-based retrieval to get relevant docs, then let WAIP generate
+                    res = self.collection.query(query_texts=[query], n_results=self.k)
+                    docs = res.get('documents', [[]])[0]
+                    return docs
                 else:
                     import openai
                     openai.api_key = openai_key
@@ -188,12 +189,13 @@ def get_qa_chain(collection, model_name: str = 'gpt-4o-mini'):
             f"You are a clinical assistant. Use the following context to answer the question concisely and cite sources if available:\n\nContext:\n{context}\n\nQuestion: {query}\n\nAnswer:"
         )
         # If WAIP is enabled use it for generation to avoid OpenAI quota
-        if 'waip_client' in locals() and waip_client is not None:
+        if waip_client is not None:
             try:
                 txt = waip_client.chat_completion(prompt, model_name=model_name, max_output_tokens=512)
                 return txt
-            except Exception:
-                pass
+            except Exception as e:
+                # fall through to OpenAI fallback
+                print('WAIP generation failed:', e)
 
         resp = openai.ChatCompletion.create(
             model=model_name,
