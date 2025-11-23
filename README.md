@@ -52,6 +52,56 @@ Usage
 -----
 POST `/query` with JSON `{ "query": "What's the recommended dosage for pediatric asthma?" }`
 
+Run & Test (local)
+------------------
+1. Create and activate the virtualenv (macOS / zsh):
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+2. Add credentials to `.env` in the project root. Examples (choose one provider):
+
+OpenAI (embeddings + generation):
+
+```env
+OPENAI_API_KEY=sk-...
+```
+
+WAIP (use as alternative LLM for generation):
+
+```env
+WAIP_API_KEY=token|...
+WAIP_API_ENDPOINT=https://api.waip.wiprocms.com
+WAIP_ENABLED=1
+```
+
+3. Build the vector store from `data/` (optional but recommended):
+
+```bash
+python src/run_demo.py --build --data data
+```
+
+4. Start the API server (development):
+
+```bash
+uvicorn src.app:app --reload --host 127.0.0.1 --port 8000
+```
+
+5. Test the endpoint with `curl`:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/query" -H "Content-Type: application/json" \
+	-d '{"query":"What are common side effects of aspirin?"}'
+```
+
+Troubleshooting
+---------------
+- If you see OpenAI quota or key errors, either set `OPENAI_API_KEY` correctly or enable `WAIP` in `.env`.
+- If WAIP returns HTTP 422, check `WAIP_API_ENDPOINT` and `WAIP_API_KEY` values; some WAIP deployments accept only specific `model_name` values — try setting `WAIP_MODEL=gpt-4o` or another model listed in the WAIP validation response.
+
 Files
 -----
 - `src/loader.py` - document loading utilities
