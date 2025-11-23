@@ -1,7 +1,7 @@
 LangChain-Clinical-Query-Assistant
 ================================
 
-[![CI](https://github.com/<owner>/<repo>/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/<owner>/<repo>/actions/workflows/ci.yml)
+[![CI](https://github.com/KarthikKollapureddy/LangChain-Clinical-Query-Assistant/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/KarthikKollapureddy/LangChain-Clinical-Query-Assistant/actions/workflows/ci.yml)
 
 Overview
 --------
