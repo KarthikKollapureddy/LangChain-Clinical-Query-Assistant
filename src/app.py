@@ -1,6 +1,8 @@
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from .retriever import load_vectorstore, get_qa_chain
@@ -8,6 +10,14 @@ from .retriever import load_vectorstore, get_qa_chain
 load_dotenv()
 
 app = FastAPI(title='LangChain Clinical Query Assistant')
+
+# Serve the web UI from the web/ directory at /static and root index
+app.mount('/static', StaticFiles(directory='web'), name='static')
+
+
+@app.get('/')
+async def index():
+    return FileResponse('web/index.html')
 
 class QueryRequest(BaseModel):
     query: str

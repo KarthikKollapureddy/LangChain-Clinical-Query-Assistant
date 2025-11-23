@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Clinical Query Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <h1>Clinical Query Assistant</h1>
+        <p class="subtitle">Ask clinical questions — powered by local RAG + WAIP/OpenAI</p>
+      </header>
+
+      <main class="container">
+        <section class="panel">
+          <textarea id="queryInput" placeholder="Type your clinical question here..." rows="4"></textarea>
+          <div class="controls">
+            <button id="askBtn" class="btn primary">Ask</button>
+            <button id="clearBtn" class="btn">Clear</button>
+          </div>
+        </section>
+
+        <section class="panel" id="responsePanel" aria-live="polite">
+          <div id="status" class="status">Ready</div>
+          <pre id="answerArea" class="answer"></pre>
+        </section>
+      </main>
+
+      <footer class="footer">Local demo • Use only synthetic data</footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

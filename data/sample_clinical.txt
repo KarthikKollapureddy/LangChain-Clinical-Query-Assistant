@@ -3,3 +3,43 @@ Patient: Pediatric asthma guideline excerpt
 For pediatric patients with mild intermittent asthma, the recommended approach includes inhaled short-acting beta2-agonists (SABA) as needed. For persistent asthma, consider daily inhaled corticosteroids (low dose) based on weight and age. Example dosing: Budesonide inhalation suspension for nebulizer: 0.25 mg for children 0-1 year; 0.5 mg for children 1-8 years; 1 mg for older children. Always adjust dosing based on clinical response.
 
 References: Example Medical Guideline 2022, Pediatric Asthma Management
+
+---
+
+Condition: Hypertension (adult guideline excerpt)
+
+For adults with stage 1 hypertension and low cardiovascular risk, lifestyle modification is recommended (dietary sodium reduction, weight loss, increased physical activity). Pharmacologic therapy with an ACE inhibitor, ARB, thiazide diuretic, or calcium-channel blocker is recommended when BP remains ≥140/90 mm Hg despite lifestyle measures, or for patients with higher cardiovascular risk. Monitor renal function and electrolytes after initiation.
+
+References: Example Hypertension Guideline 2021
+
+---
+
+Condition: Type 2 Diabetes (outpatient management excerpt)
+
+Initial management focuses on lifestyle (diet and exercise) and metformin as first-line therapy unless contraindicated. Consider SGLT2 inhibitors in patients with established atherosclerotic cardiovascular disease or heart failure to reduce hospitalizations and improve outcomes. Hemoglobin A1c target individualized; common target is <7% for many nonpregnant adults.
+
+References: Example Diabetes Guideline 2023
+
+---
+
+Condition: Anticoagulation (atrial fibrillation excerpt)
+
+For nonvalvular atrial fibrillation with CHA2DS2-VASc score ≥2 (men) or ≥3 (women), offer oral anticoagulation to reduce stroke risk. Direct oral anticoagulants (apixaban, rivaroxaban, dabigatran) are preferred over warfarin for most patients because of lower intracranial bleeding risk and no requirement for routine INR monitoring.
+
+References: Example Cardiology Guideline 2020
+
+---
+
+Condition: Immunizations (adult outpatient excerpt)
+
+Annual influenza vaccination is recommended for all adults. For adults ≥65 years, administer pneumococcal vaccination per sequential schedule (PCV20 or PCV15 followed by PPSV23 as indicated). Ensure tetanus-diphtheria-pertussis booster every 10 years and consider shingles vaccine for eligible adults.
+
+References: Example Immunization Schedule 2024
+
+---
+
+Condition: Heart Failure (chronic HFrEF excerpt)
+
+For patients with symptomatic heart failure with reduced ejection fraction (HFrEF), use guideline-directed medical therapy including ACE inhibitor/ARB/ARNI, beta-blocker, mineralocorticoid receptor antagonist, and SGLT2 inhibitor unless contraindicated. Titrate doses to target or maximally tolerated doses and arrange close follow-up for volume status and renal function monitoring.
+
+References: Example Heart Failure Guideline 2022
